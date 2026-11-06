@@ -1,0 +1,190 @@
+<tal:translate i18n:domain="openheidelberg.tile_card">
+
+  <div class="interaktivbasetiles-modal-header"
+       data-base_url="${python: context.absolute_url()}"
+       data-uid="${python: view.tile['id']}">
+    <i class="interaktiv-icon-basetilestheme-image"></i>
+    <h3 class="title" i18n:translate="label_configure_card_title">Card</h3>
+
+    <ul id="modal-header-actions">
+      <li class="modal-action-save" title="Save" i18n:attributes="title label_save_button">
+        <i class="interaktiv-icon-basetilestheme-check"></i>
+      </li>
+      <li class="interaktivbasetiles-modal-close" title="Abort" i18n:attributes="title label_abort_button">
+        <i class="interaktiv-icon-basetilestheme-delete-row"></i>
+      </li>
+    </ul>
+  </div>
+
+  <div class="interaktivbasetiles-modal-topbar">
+    <div class="row">
+      <div class="col-md-12 modal-navigation">
+        <div id="modal-tabs-wrapper">
+          <ul class="nav-tabs" role="tablist">
+            <li role="presentation" class="general active">
+              <a role="tab" data-toggle="tab" href="#tab-card-general" aria-controls="tab-card-general"
+                 data-type="general" i18n:translate="label_tab_general">Content</a>
+            </li>
+            <li role="presentation" class="icon">
+              <a role="tab" data-toggle="tab" href="#tab-card-icon" aria-controls="tab-card-icon"
+                 data-type="icon" i18n:translate="label_tab_icon">Icon</a>
+            </li>
+          </ul>
+          <script>
+            if (typeof navigationActiveLine === 'function') { navigationActiveLine('.nav-tabs'); }
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="interaktivbasetiles-modal-content container">
+    <form class="modal-edit-form tab-content">
+      <div role="tabpanel" class="tab-pane tab-general active" id="tab-card-general">
+
+      <div class="modal-content modal-content-row">
+
+        <div class="row modal-content-row form-group">
+          <div class="col-md-4"><label for="card-title" i18n:translate="label_card_title">Title</label></div>
+          <div class="col-md-8 field">
+            <input type="text" id="card-title" name="title" class="field-input text"
+                   value="${python: view.tile.get('title', '')}" />
+          </div>
+        </div>
+
+        <div class="row modal-content-row form-group">
+          <div class="col-md-4"><label for="card-description" i18n:translate="label_card_description">Short description</label></div>
+          <div class="col-md-8 field">
+            <textarea id="card-description" name="description" rows="4"
+                      class="field-input textarea">${python: view.tile.get('description', '')}</textarea>
+          </div>
+        </div>
+
+        <div class="row modal-content-row form-group" tal:define="images python: view.get_images()">
+          <div class="col-md-4"><label for="card-image" i18n:translate="label_card_image">Image</label></div>
+          <div class="col-md-8 field">
+            <select id="card-image" name="image" class="field-input select">
+              <option value="" i18n:translate="label_card_no_image">(no image)</option>
+              <option tal:repeat="img images" value="${img/uid}"
+                      tal:attributes="selected python: 'selected' if img['selected'] else None">${img/title}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row modal-content-row form-group">
+          <div class="col-md-4"><label for="card-image-alt" i18n:translate="label_card_image_alt">Alternative text of the image</label></div>
+          <div class="col-md-8 field">
+            <input type="text" id="card-image-alt" name="image_alt" class="field-input text"
+                   value="${python: view.tile.get('image_alt', '')}" />
+          </div>
+        </div>
+
+        <div class="row modal-content-row form-group">
+          <div class="col-md-4"><label for="card-link-href" i18n:translate="label_card_link_href">Link target</label></div>
+          <div class="col-md-8 field">
+            <input type="text" id="card-link-href" name="link_href" class="field-input text"
+                   placeholder="https://… or /path"
+                   value="${python: view.tile.get('link_href', '')}" />
+          </div>
+        </div>
+
+        <div class="row modal-content-row form-group">
+          <div class="col-md-4"><label for="card-link-show-button" i18n:translate="label_card_link_show_button">Show the action button</label></div>
+          <div class="col-md-8 field">
+            <select id="card-link-show-button" name="link_show_button" class="field-input select"
+                    tal:define="show python: view.tile.get('link_show_button', None) is not False">
+              <option value="true" tal:attributes="selected python: 'selected' if show else None" i18n:translate="label_yes">Yes</option>
+              <option value="false" tal:attributes="selected python: None if show else 'selected'" i18n:translate="label_no">No</option>
+            </select>
+            <p class="discreet" i18n:translate="help_card_link_show_button">Off: no button; the title becomes the link and the whole card stays clickable.</p>
+          </div>
+        </div>
+
+        <div class="row modal-content-row form-group">
+          <div class="col-md-4"><label for="card-link-label" i18n:translate="label_card_link_label">Action label</label></div>
+          <div class="col-md-8 field">
+            <input type="text" id="card-link-label" name="link_label" class="field-input text"
+                   value="${python: view.tile.get('link_label', '')}" />
+          </div>
+        </div>
+
+        <div class="row modal-content-row form-group">
+          <div class="col-md-4"><label for="card-link-new-window" i18n:translate="label_card_link_new_window">Open in a new window</label></div>
+          <div class="col-md-8 field">
+            <select id="card-link-new-window" name="link_new_window" class="field-input select">
+              <option value="false" tal:attributes="selected python: None if view.tile.get('link_new_window') else 'selected'" i18n:translate="label_no">No</option>
+              <option value="true" tal:attributes="selected python: 'selected' if view.tile.get('link_new_window') else None" i18n:translate="label_yes">Yes</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane tab-icon" id="tab-card-icon">
+        <div class="modal-content modal-content-row">
+
+          <!-- vector icon: beside the title; chosen from the icons of the control panel -->
+          <div class="row modal-content-row">
+            <div class="col-md-12">
+              <p class="caption" id="card-icon-orientation-caption" i18n:translate="label_card_icon_orientation">Position of the vector icon</p>
+              <select id="card-icon-orientation" name="card_icon_orientation" class="field-input select"
+                      aria-labelledby="card-icon-orientation-caption">
+                <option tal:repeat="o python: view.get_icon_orientations()" value="${o/id}"
+                        tal:attributes="selected python: 'selected' if o['id'] == view.get_selected_icon_orientation() else None">${o/title}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row modal-content-row">
+            <div class="col-md-12">
+              <p class="caption" i18n:translate="label_svg_icons">Vector icon</p>
+              <div class="card-svg-icon-picker">
+                <label class="card-svg-icon-option card-svg-icon-option-none" title="No vector icon" i18n:attributes="title label_no_svg_icon">
+                  <input type="radio" name="card_icon_svg" value=""
+                         tal:attributes="checked python: not view.tile.get('card_icon_svg', '')" />
+                  <span aria-hidden="true">&#215;</span>
+                </label>
+                <label class="card-svg-icon-option" tal:repeat="svg_icon view/get_svg_icons" title="${svg_icon/name}">
+                  <input type="radio" name="card_icon_svg" value="${svg_icon/name}"
+                         tal:attributes="checked python: svg_icon['selected']" />
+                  <span tal:content="structure svg_icon/svg"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- font icon: at the bottom right of the card, in the place of the arrow -->
+          <div class="row modal-content-row no-icon-row">
+            <div class="col-md-12">
+              <p class="caption" i18n:translate="label_card_action_icon">Action icon (bottom right, replaces the arrow)</p>
+              <div class="no-icon-wrapper">
+                <input type="radio" name="card_icon" value="" title="Default arrow icon"
+                       tal:attributes="checked python: not view.tile.get('card_icon', '')" />
+                <span i18n:translate="label_no_icon">Default arrow icon (<span class="card-default-arrow" aria-hidden="true" i18n:name="arrow">&#8594;</span>)</span>
+              </div>
+            </div>
+          </div>
+
+          <tal:icon_groups repeat="icon_group view/get_selectable_icon_groups">
+            <div class="row modal-content-row">
+              <div class="col-md-12">
+                <p class="caption" tal:content="python: icon_group['title']"></p>
+                <tal:selectable_icons repeat="icon python: icon_group['icons']">
+                  <input type="radio" class="icon-selector ${python: icon['icon_class']}"
+                         name="card_icon" value="${python: icon['icon_class']}" title="${python: icon['title']}"
+                         tal:attributes="checked python: icon['icon_class'] == view.tile.get('card_icon', '')" />
+                </tal:selectable_icons>
+              </div>
+            </div>
+          </tal:icon_groups>
+
+        </div>
+      </div>
+
+      <input type="hidden" value="${python: view.tile['id']}" name="id" />
+    </form>
+    <div class="spinner"></div>
+  </div>
+
+</tal:translate>

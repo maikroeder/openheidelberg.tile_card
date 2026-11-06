@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+    <!-- 0001 -> 0002: the control panel "Card tile vector icons" -->
+    <genericsetup:upgradeSteps
+        profile="openheidelberg.tile_card:default"
+        source="0001"
+        destination="0002">
+        <genericsetup:upgradeDepends
+            title="Register the control panel of the card tile SVG icons"
+            import_steps="controlpanel"
+        />
+    </genericsetup:upgradeSteps>
+
+    <!-- 0002 -> 0003: the control panel moves to its own section "Mosaik Tiles" -->
+    <genericsetup:upgradeSteps
+        profile="openheidelberg.tile_card:default"
+        source="0002"
+        destination="0003">
+        <genericsetup:upgradeDepends
+            title="Move the card tile control panel to the section Mosaik Tiles"
+            import_steps="controlpanel"
+        />
+    </genericsetup:upgradeSteps>
+
+</configure>

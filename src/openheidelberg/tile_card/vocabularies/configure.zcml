@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope" i18n_domain="openheidelberg.tile_card">
+
+    <utility
+        component="openheidelberg.tile_card.vocabularies.orientation.icon_orientations"
+        name="openheidelberg.tile_card.vocabularies.icon_orientations"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+    <utility
+        component="openheidelberg.tile_card.vocabularies.svg_icons.svg_icons"
+        name="openheidelberg.tile_card.vocabularies.svg_icons"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
+</configure>
